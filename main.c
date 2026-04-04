@@ -3,7 +3,29 @@
 #include <unistd.h> // used for system calls POSIX 
 #include <sys/wait.h>
 
+void header(){
+    printf(
+    "      .o.       ooo        ooooo ooooo     ooo ooooo ooooooo  ooooo \n"
+    "     .888.      `88.       .888' `888'     `8' `888'  `8888    d8'  \n"
+    "    .8\"888.     888b     d'888   888       8   888     Y888..8P    \n"
+    "   .8' `888.     8 Y88. .P  888   888       8   888      `8888'     \n"
+    "  .88ooo8888.    8  `888'   888   888       8   888     .8PY888.    \n"
+    " .8'     `888.   8    Y     888   `88.    .8'   888    d8'  `888b   \n"
+    "o88o     o8888o o8o        o888o    `YbodP'    o888o o888o  o88888o \n"
+    "\n"
+    "\n"
+    "\n"
+    );
+
+    printf("This project is being actively developed as a learning and building exercise."
+            "\nSome components may not be fully stable yet."
+            "\nIf you run into issues or have suggestions, reporting them would be helpful.\n");
+
+    printf("\nAMUIX is an another shell in this open source world. It is used to study the shell development and operating system working. Refer to this repo 'https://github.com/Cryogenicboom/User-Simulated-Virtual-OS' where we are simulating the operating system.\n\n");
+}
+
 int main(){
+    header();
     while(1){
         char user_input[100];
         char deli[] = " \t";  // delimeter are single space or multiple spaces (tab)

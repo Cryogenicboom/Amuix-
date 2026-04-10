@@ -3,6 +3,8 @@
 #include <unistd.h>             // used for system calls POSIX 
 #include <sys/wait.h>
 
+#include "parser.h"
+
 void header(){  
 
     printf(
@@ -21,43 +23,6 @@ void header(){
             "\nIf you run into issues or have suggestions, reporting them would be helpful.\n");
 
     printf("\nAMUIX is an another shell in this open source world. It is used to study the shell development and operating system working. Refer to this repo 'https://github.com/Cryogenicboom/User-Simulated-Virtual-OS' where we are simulating the operating system.\n\n");
-}
-
-
-                                                                                             
-
-void parser_for_quotes(char * cmds[], char * parsed_cmds[])
-{
-    int i = 0, j = 0;    
-    while(cmds[i] != NULL)
-    {
-        if(cmds[i][0] == '"')
-        {
-            char temp[200];
-            temp[0] = '\0';
-            strcat(temp, cmds[i]+1);
-            while(cmds[i][strlen(cmds[i]) -1] != '"')   // check every 2nd letter of each index to be '"' or not.    
-            {          
-                strcat(temp, " ");
-                i += 1;
-                strcat(temp, cmds[i]);
-            }
-
-            int temp_len = strlen(temp);
-            temp[temp_len - 1] = '\0';              // replace the ending quote with null terminator.
-
-            parsed_cmds[j] = strdup(temp);
-            j += 1;
-            i += 1;
-        }
-        else
-        {
-            parsed_cmds[j] = cmds[i];
-            j += 1;
-            i += 1;
-        }
-    }
-    parsed_cmds[j] = NULL;
 }
 
 

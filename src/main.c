@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>             // to be only used for strtok()
 #include <unistd.h>             // used for system calls POSIX 
 #include <sys/wait.h>
@@ -68,11 +69,15 @@ int main()
         if(strcmp(parsed_cmds[0], "dirbadlo") == 0)
         {
             printf("DEBUG: [%s, %s, %s]\n", parsed_cmds[0], parsed_cmds[1], parsed_cmds[2]);
-            if(chdir(parsed_cmds[1]) == -1)
+            if(chdir(parsed_cmds[1]) == -1)         // chdir us used to dirbadlo
             {
                 perror("dirbadlo failed");
             }
             continue;
+        }
+        else if (strcmp(parsed_cmds[0], "bahar") == 0)
+        {
+            exit(EXIT_SUCCESS);
         }
 
         // ================================= External Cmds: ==========================================

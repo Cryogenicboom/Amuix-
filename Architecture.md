@@ -1,4 +1,4 @@
-This is documentation for AMUNIX specifically covers "main.c" architecture and working. For installation refer to the README.md {link readme.md} here.
+This is documentation for AMUNIX specifically covers "main.c" architecture and working. For installation refer to the README.md {will update soon} here.
 
 ```
         .o.       ooo        ooooo ooooo     ooo  oooo        oooo  ooooo ooooooo  ooooo

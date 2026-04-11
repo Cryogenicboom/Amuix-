@@ -10,6 +10,7 @@ This is documentation for AMUNIX specifically covers "main.c" architecture and w
   o88o     o8888o o8o        o888o    `YbodP'      o8o      88888o  o888o oo888o  o88888o 
 ```
 <br>
+
 ###### Yes this ASCII title was way harder than making the Shell.
 
 <br> 

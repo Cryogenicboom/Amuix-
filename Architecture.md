@@ -62,9 +62,65 @@ Right now, this shell has nothing to do with Networks but it could help you too 
 > }
 > ```
 
+### 1.2 `ls -l|grep file.txt` 
+- Above command is what we will be using to study further development. so let's study what this line of command means: 
+> - list the detailed information (meta data) about all files in the directory and pass it as input to `grep` command which will write it in the file.txt
+
+- The above command is tokenized as : [ "ls", "-l|grep", "file.txt", "NULL" ].
+- Hey wait, `-l` and `grep` are different commands, so we need to tokenize it differently. Also we need to consider pipe `|` as a token too, since it holds a meaning. 
+- User should have entered `ls -l | grep file.txt` (with spaces), you should know your users, they like things to be easy, and that's why you as a programmer have to take care of every case (its a pain ikr).
+- **NOTE:** pipe is to be considered as a char '|' ✅ not string "|" ❌.
 
 
+### 2.0 Parsing and Pipe
+- After tokenization, we now have a clean array of strings:
+- > `parsed_cmds[] = {"ls", "-l", "|", "grep", "txt", NULL}`
+
+- Now the goal of parsing is not just splitting strings, but understanding structure.
+- A shell does not see this as one command, it sees:
+
+> Command 0 → ls -l  
+> Command 1 → grep txt
+
+- This idea comes from the concept of a Command Table, where the command is split into multiple commands keeping '|' as delimeter. That's why space before and after '|' is necessary. 
+
+### 2.1 Why Parsing is Needed
+
+- Tokenization only splits your user_input string like it asks --> “What are the words?”
+
+- Parsing gives meaning by spliting them further into logical manner, it asks --> “How are these words grouped and executed?”
+
+- > Without parsing: ls -l | grep txt → treated as one command 
+  > With parsing, Split into multiple commands & execute them properly 
+
+### 2.2 Pre-processing Trick 
+
+- Before tokenization, we do:
+
+>  if(user_input[user_idx] == '|')
+>  {
+>      buffer[buffer_idx] = ' ';
+>      buffer[buffer_idx + 1] = '|';
+>      buffer[buffer_idx + 2] = ' ';
+>  }
+
+This ensures that `ls|grep` --> `ls | grep`, Without this strtok() would treat ls|grep as one token.
 
 
+### 2.3 Parsing function: 
 
+- We treat | as a separator between commands, not just another token.
+- Function in parser.c does the work : 
+  > void parsing_by_special_char(char * parsed_cmds[], char * commands[10][50], int *cmd_count)
+- What it does is iterates over parsed_cmds[] and when it sees "|", it ends current command (NULL) and moves to next row.
+- Otherwise it adds token to current command.
+- After parsing:
+  > commands[0] --> {"ls", "-l", NULL}
+  > commands[1] --> {"grep", "txt", NULL}
 
+### 2.4 NULL TERMINATER
+
+- you must be seeing or if not then let me make it visible for you that every command we store ends with `NULL` WHY?
+- > commands[c_idx][args_idx] = NULL;
+- Because execvp() requires NULL-terminated argument lists. If we forget this we won’t get compile errors but get silent undefined crashes. 
+- Also it allows us to parse / trace strings of commands easily by just doing `if != NULL`.

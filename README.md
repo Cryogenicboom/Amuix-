@@ -51,7 +51,7 @@ Right now, this shell has nothing to do with Networks but it could help you too 
 ## PARSING FEATURES
 | Feature                  | Syntax Example              | Description |
 |--------------------------|----------------------------|-------------|
-| Pipe Separation          | `ls | grep txt`            | Commands are split into multiple arrays using `|` :contentReference[oaicite:1]{index=1} |
+| Pipe Separation          | `ls \| grep txt`            | Commands are split into multiple arrays using `|` :contentReference[oaicite:1]{index=1} |
 | Command Count Tracking   | (internal)                 | Counts number of piped commands for execution logic |
 | Argument Structuring     | (internal)                 | Stores commands as `commands[10][50]` (2D array) |
 

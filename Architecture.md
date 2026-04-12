@@ -23,8 +23,6 @@ This is documentation for AMUNIX specifically covers "main.c" architecture and w
 <p> 
 This is a hobby project of mine, i was really fascinated by Linux when playing BANDIT on my WSL. This made me learn more about Computer Networks and low level systems. Networking was not only about connecting your system to another system, but your system also uses Transmission Control Protocol (TCP) to ensure the reliablity of communication inside the system itself.
 </p>
-<br>
-
 <p> 
 Right now, this shell has nothing to do with Networks but it could help you too study the strucutre and how a shell operates at base level. 
 </p>

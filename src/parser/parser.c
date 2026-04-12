@@ -4,6 +4,31 @@
 #include <sys/wait.h>
 #include "tokenizer.h"
 
+
+
+// ERROR 10 in diary
+void parsing_by_special_char(char * parsed_cmds[], char * commands[10][50], int *cmd_count){
+    int c_idx = 0;          // command index (row)
+    int args_idx = 0;       // argument index ( column )
+    *cmd_count =1;
+
+    for(int i =0; parsed_cmds[i] != NULL; i++)
+    {
+        if(strcmp(parsed_cmds[i], "|") == 0)
+        {
+            commands[c_idx][args_idx] = NULL;
+            c_idx += 1;
+            args_idx = 0;
+            *cmd_count += 1;
+        }
+        else{
+            commands[c_idx][args_idx++] = parsed_cmds[i];
+        }
+    }
+    commands[c_idx][args_idx] = NULL;
+}
+
+
 void parser_for_quotes(char * cmds[], char * parsed_cmds[])
 {
     int i = 0, j = 0;    
@@ -36,4 +61,10 @@ void parser_for_quotes(char * cmds[], char * parsed_cmds[])
         }
     }
     parsed_cmds[j] = NULL;
+
+    // DEBUG LINE 
+    printf("\nTokenized elements: ");
+    for(int a = 0; parsed_cmds[a] != NULL; a++){
+        printf("\n%s", parsed_cmds[a]);
+    }
 }

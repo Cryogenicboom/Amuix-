@@ -7,6 +7,7 @@
 #include "parser.h"
 #include "tokenizer.h"
 
+
 void header(){  
 
     printf(
@@ -34,9 +35,10 @@ int main()
     while(1)
     {
         char user_input[100];
-        // char deli[] = " \t";                    // delimeter are single space or multiple spaces (tab)
-        char *cmds[300];                        //these commands are tokenized only
-        char *parsed_cmds[300];                 // these commands are parsed matlab, [ERROR 4 in diary]
+        char *cmds[300];                            //these commands are tokenized only
+        char *parsed_cmds[300] = {NULL};            // these commands are parsed matlab, [ERROR 4 in diary]
+        char *commands [10][50];                     // final parsing commands (after pipe)
+        
         char pwd[100];
 
         if(getcwd(pwd, sizeof(pwd)) != NULL)
@@ -47,15 +49,70 @@ int main()
         fgets(user_input, sizeof(user_input), stdin);
         user_input[strcspn(user_input, "\n")] = '\0';
 
+        // debug
+        printf("        before : %s", user_input);
+
+        // add spaces before and after pipe |
+        int buffer_idx = 0;
+        char buffer[300];
+        for(int user_idx =0; user_input[user_idx] != '\0' ; user_idx++)
+        {
+            if(user_input[user_idx] == '|')
+            {
+                
+                buffer[buffer_idx] = ' ' ;
+                buffer[buffer_idx + 1] = '|';
+                buffer[buffer_idx + 2] = ' ';
+                buffer_idx += 3;
+
+            }
+            else
+            {
+                buffer[buffer_idx] = user_input[user_idx];
+                buffer_idx += 1;
+            }
+        }
+
+        buffer[buffer_idx] = '\0';
+        strcpy(user_input, buffer);
+
+        // debug
+        printf("\n      after : %s", user_input);
+
         // =================================== TOKENIZE ==================================
 
         tokenize(user_input, cmds, parsed_cmds);
         
+        // =================================== Parsing ======================================
+
+        int cmd_count = 0;
+        parsing_by_special_char(parsed_cmds, commands, &cmd_count);         // using & with cmd_count because cmd_count is earlier defined as int only, unlike other array parameters which were defined with pointer state 
+
+        // DEBUG 
+        for(int i = 0; i < cmd_count; i++)
+        {
+            printf("\n      Command %d: ", i);
+            for(int j = 0; commands[i][j] != NULL; j++)
+            {
+                printf("%s ", commands[i][j]);
+            }
+            printf("\n");
+        }
+        
+
+        if(parsed_cmds[0] == NULL)
+        {
+            continue;
+        }
+
+        // debug
+        printf("\n      DEBUG: parsed_cmds[0] = %p\n\n", parsed_cmds[0]); // debug line to check for seg fault 
+
 
         // ========================================BUILT IN CMDS: ========================================
         if(strcmp(parsed_cmds[0], "dirbadlo") == 0)
         {
-            printf("DEBUG: [%s, %s, %s]\n", parsed_cmds[0], parsed_cmds[1], parsed_cmds[2]);
+            printf("        DEBUG: [%s, %s, %s]\n", parsed_cmds[0], parsed_cmds[1], parsed_cmds[2]);
             if(chdir(parsed_cmds[1]) == -1)         // chdir us used to dirbadlo
             {
                 perror("dirbadlo failed");
@@ -67,13 +124,8 @@ int main()
             exit(EXIT_SUCCESS);
         }
 
-        // ================================= External Cmds: ==========================================
 
-        // if user empty enter then continue
-        if(parsed_cmds[0] == NULL)
-        {
-            continue;
-        }
+        // ================================= External Cmds: ==========================================
         
         pid_t pid = fork();
 

@@ -19,7 +19,11 @@ void tokenize(char *user_input, char * cmds[], char *parsed_cmds[]){
     }
     cmds[i] = NULL;                                 // add NULL at the end of command to let know other shell (execvp) this command has terminated.
 
-    if(cmds[0] == NULL) return;
+    if(cmds[0] == NULL)
+    {
+        parsed_cmds[0] = NULL;
+        return;
+    } 
     
     parser_for_quotes(cmds, parsed_cmds);
     

@@ -6,7 +6,7 @@
 
 #include "parser.h"
 #include "tokenizer.h"
-
+#include "command.h"
 
 void header(){  
 
@@ -88,13 +88,26 @@ int main()
         int cmd_count = 0;
         parsing_by_special_char(parsed_cmds, commands, &cmd_count);         // using & with cmd_count because cmd_count is earlier defined as int only, unlike other array parameters which were defined with pointer state 
 
+        // using struct; copying my commands to struct data type 
+        Command cmd;
+        cmd.count = cmd_count;
+
+        for(int i = 0; i < cmd_count; i++){
+            cmd.simpleCommands[i].argc = 0;
+
+            for(int j = 0; commands[i][j] != NULL; j++){
+                cmd.simpleCommands[i].argv[j] = commands[i][j];
+                cmd.simpleCommands[i].argc++;
+            }
+            cmd.simpleCommands[i].argv[cmd.simpleCommands[i].argc] = NULL;
+        }
+
         // DEBUG 
-        for(int i = 0; i < cmd_count; i++)
-        {
-            printf("\n      Command %d: ", i);
-            for(int j = 0; commands[i][j] != NULL; j++)
-            {
-                printf("%s ", commands[i][j]);
+        printf("\nStruct Debug \n");
+        for(int i = 0; i < cmd.count; i++){
+            printf("simpleCommand %d: ", i);
+            for(int j = 0; cmd.simpleCommands[i].argv[j] != NULL; j++){
+                printf("%s", cmd.simpleCommands[i].argv[j]);
             }
             printf("\n");
         }
@@ -131,7 +144,7 @@ int main()
 
         if(pid == 0)
         {
-            execvp(parsed_cmds[0], parsed_cmds);            // cmds[0] --> first line always have the command name later part contains arguments, flags etc.
+            execvp(cmd.simpleCommands[0].argv[0], cmd.simpleCommands[0].argv);            // cmds[0] --> first line always have the command name later part contains arguments, flags etc.
             printf("\n");
         } 
         else if(pid > 0)

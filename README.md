@@ -10,11 +10,14 @@
 ```
 <br>
 
+###### Yes this ASCII title was way harder than making the Shell.
+
+--- 
+
 ### Another open shell in this open source world.
 <br>
 
-#### Yes this ASCII title was way harder than making the Shell.
-<br>
+
 
 <p> 
 This is a hobby project of mine, i was really fascinated by Linux when playing BANDIT on my WSL. This made me learn more about Computer Networks and low level systems. Networking was not only about connecting your system to another system, but your system also uses Transmission Control Protocol (TCP) to ensure the reliablity of communication inside the system itself.

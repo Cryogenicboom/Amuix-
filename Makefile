@@ -7,6 +7,7 @@
 # to build target (.o file) --> use depedencies (.c files)
 # if depedencies changed --> build them using Command
 
+GN = gnome_terminal --
 
 CC = gcc # set compiler 
 
@@ -15,7 +16,7 @@ CFLAGS = -g -Wall -Iinclude
 SOURCES = src/main.c \
 src/parser/parser.c \
 src/parser/tokenizer.c \
-src/executor/executor.c
+src/executor/executor.c 
 
 OUT = AMUNIX
 
@@ -27,7 +28,8 @@ all:
 
 # "make run" to run the final .o file
 run: 
-	./$(OUT)
+	exec ./$(OUT)
+# 	$(GN) ./$(OUT)
 
 # deletes the .o file created.
 clean: 

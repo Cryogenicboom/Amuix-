@@ -143,6 +143,22 @@ int main()
         {
             exit(EXIT_SUCCESS);
         }
+        // else if(strcmp(parsed_cmds[0], "calc") == 0)
+        // {
+        //     pid_t pid = fork();
+        //     if(pid == 0)
+        //     {
+        //         execl("./calc", "calc", NULL);
+        //         perror("calc exec failed");
+        //         exit(1);
+        //     }
+        //     else
+        //     {
+        //         wait(NULL);
+        //     }
+
+        //     continue;
+        // }
 
         // ================================= External Cmds: ==========================================
         printf("\nDEBUG:\n");

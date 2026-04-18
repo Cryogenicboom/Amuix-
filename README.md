@@ -1,22 +1,3 @@
-This is documentation for AMUNIX will cover Amunix commands and related. To learn about the working and internal structure you can refer to [Architecture.md](https://github.com/Cryogenicboom/Amunix/blob/main/Architecture.md), this is my personal documentation i am making as i am learning. 
-
-## To run the shell 
-1. Fork this repo and install it on your system.
-2. Create a new folder named "AMUNIX" and unzip the downlaoded folder here. 
-2. open terminal (WIN+R --> cmd --> enter), and in terminal itself, go to the AMUNIX folder where you have extracted the shell contents.
-3. `gcc src/main.c src/parser/parser.c src/parser/tokenizer.c src/executor/executor.c -o executable -Iinclude `
-4. `gnome-terminal -- ./executable`
-5. if gnome is not downlaoded --> `sudo apt install gnome-terminal` write this in terminal and run.
-6. `ctrl+C` to exit ( due to in development you cannot use `bahar` command )
-
-
-## See detailed documentation here:  
-
-[Basic Architecture](Architecture.md)
-<br>
-
-[Calc Documentation (not integrated yet)](calc/calc_doc.md)
-<br>
 
 ```
         .o.       ooo        ooooo ooooo     ooo  oooo        oooo  ooooo ooooooo  ooooo
@@ -29,36 +10,54 @@ This is documentation for AMUNIX will cover Amunix commands and related. To lear
 ```
 <br>
 
-## Another open shell in this open source world.
-
+### Another open shell in this open source world.
 <br>
 
-###### Yes this ASCII title was way harder than making the Shell.
+#### Yes this ASCII title was way harder than making the Shell.
 <br>
 
-<br>
 <p> 
 This is a hobby project of mine, i was really fascinated by Linux when playing BANDIT on my WSL. This made me learn more about Computer Networks and low level systems. Networking was not only about connecting your system to another system, but your system also uses Transmission Control Protocol (TCP) to ensure the reliablity of communication inside the system itself.
+
+AMUNIX could help you too study the strucutre and how a shell operates at base level.To learn about the working and internal structure you can refer to [Architecture.md](https://github.com/Cryogenicboom/Amunix/blob/main/ARCHITECTURE.md) 
 </p>
-<p> 
-Right now, this shell has nothing to do with Networks but it could help you too study the strucutre and how a shell operates at base level. 
-</p>
+
+## Run the shell
+1. Fork this repo and zip file it on your system.
+2. Create a new folder named "AMUNIX" and unzip the downlaoded folder here. 
+2. open terminal (WIN+R --> cmd --> enter), and in terminal itself, go to the AMUNIX folder where you have extracted the shell contents.
+3. Run \> `make all` 
+4. then \> `make run`
+5. if gnome is not downlaoded --> `sudo apt install gnome-terminal` write this in terminal and run.
+6. gnome is yet to be debuged, it will be added soon.
+7. `bahar` to exit
+
+
+## See detailed documentation here:  
+
+[Basic Architecture](ARCHITECTURE.md)
 <br>
 
-## BUILT IN COMMANDS: 
+[Calc Documentation (not integrated yet)](calc/calc_doc.md)
+<br>
+
+## Command List for AMUNIX ( in development )
+<br>
+
+### BUILT IN COMMANDS: 
 | Command   | Syntax                     | Description |
 |----------|----------------------------|-------------|
 | dirbadlo | `dirbadlo <directory>`     | Changes the current working directory using `chdir()` system call |
 | bahar    | `bahar`                    | Exits the shell program using `exit()` |
 
-## SYSTEM COMMAND
+### SYSTEM COMMAND
 | Feature            | Syntax Example              | Description |
 |-------------------|----------------------------|-------------|
 | External Commands | `ls -l`, `pwd`, `echo hi`  | Executed using `fork()` + `execvp()`  |
 | Argument Passing  | `ls -l /home`              | Arguments are passed as `char* argv[]` to `execvp()` |
 | Process Handling  | (implicit)                 | Parent waits for child using `wait()` after execution |
 
-## PARSING FEATURES
+### PARSING FEATURES
 | Feature                  | Syntax Example              | Description |
 |--------------------------|----------------------------|-------------|
 | Pipe Separation          | `ls \| grep txt`            | Commands are split into multiple arrays using `\|` :contentReference[oaicite:1]{index=1} |
@@ -67,14 +66,14 @@ Right now, this shell has nothing to do with Networks but it could help you too 
 | > (Overwrite Output)     | `ls > file.txt`            | Sends standard output to a file, creating it if it doesn't exist or overwriting existing content.|
 | < (Input Redirection)    |  `wc -l << file.txt`       | Reads input for a command from a file instead of the keyboard.|
 
-## TOKENIZATION FEATURES
+### TOKENIZATION FEATURES
 | Feature                | Syntax Example              | Description |
 |------------------------|----------------------------|-------------|
 | Space Tokenization     | `ls -l`                    | Input split using `strtok()` with space & tab delimiters :contentReference[oaicite:2]{index=2} |
 | Quote Handling         | `"My Folder"`              | Multi-word arguments handled using custom parser |
 | Null Termination       | (internal)                 | Arrays end with `NULL` for compatibility with `execvp()` |
 
-## LIMITATIONS
+### LIMITATIONS
 | Limitation            | Current Behavior |
 |----------------------|------------------|
 | Pipe Execution       | Pipes are parsed but NOT executed yet |

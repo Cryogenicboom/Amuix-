@@ -1,4 +1,4 @@
-This is documentation for AMUNIX covers architecture and working. For installation refer to the (README.md)[README.md] here.
+This is documentation for AMUNIX covers architecture and working. For installation refer to the [README.md](README.md) here.
 
 ```
         .o.       ooo        ooooo ooooo     ooo  oooo        oooo  ooooo ooooooo  ooooo

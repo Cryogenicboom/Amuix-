@@ -21,7 +21,7 @@ Shell is a CLI (Command Line Interface) that acts as an interface for an Operati
 
 ## Why AMUNIX? 
 <p>
-I know there exist professional shells already. I built AMUNIX as a curiosity driven project. I was studying [OSTEP]("https://pages.cs.wisc.edu/~remzi/OSTEP/"), this book ignited the spark in me to understand computers at fundamentals. I thought "why not learn by doing?". I hope that this shell will also help other curious minds to understand the shell development. 
+I know there exist professional shells already. I built AMUNIX as a curiosity driven project. I was studying [OSTEP](https://pages.cs.wisc.edu/~remzi/OSTEP/), this book ignited the spark in me to understand computers at fundamentals. I thought "why not learn by doing?". I hope that this shell will also help other curious minds to understand the shell development. 
 </p>
 
 # ARCHITECTURE 
@@ -43,7 +43,7 @@ Shell is divided into 3 parts:
 - Tokennizing a stream of text means dividing it into tokens ( like smaller strings ). But how do you actually divide ? you need a reference to divide w.r.t it, this reference is called "delimeter". 
 - we are using `" "` (whitespace), `\t` (tab space) as delimeters. Whenever user enters a command `ls -a|grep file.txt` tokenizer splits this stream of text into `{"ls" "-a|grep" "file.txt"}`. But wait! `-a` and `grep` were supposed to be different commands, since they were separated by pipe `|`. 
 - Your users can be hard annoying sometimes therefore they might not whitespace pipe `|`. So being a good developer you should take the responsiblity :) 
-- [Piping]("https://www.geeksforgeeks.org/linux-unix/piping-in-unix-or-linux/") : A pipe is a form of redirection that is used in Unix-like operating systems to send the output of one command/program/process to another command/program/process for further processing. The Unix systems allow the stdout of a command to be connected to the stdin of another command. You can make it do so by using the pipe character '|'. 
+- [Piping](https://www.geeksforgeeks.org/linux-unix/piping-in-unix-or-linux/) : A pipe is a form of redirection that is used in Unix-like operating systems to send the output of one command/program/process to another command/program/process for further processing. The Unix systems allow the stdout of a command to be connected to the stdin of another command. You can make it do so by using the pipe character '|'. 
 - to get `-a|grep` --> `"-a" "|" "grep"` i handle it manually, having a buffer array, whenever `|` is encountered, add a space before and after the pipe. and then pass it for tokenizing. 
 
 

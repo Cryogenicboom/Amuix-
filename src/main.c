@@ -36,12 +36,9 @@ int main()
     while(1)
     {
         char user_input[100];
-        char *cmds[300];                            //these commands are tokenized only
+        char *tok_cmds[300];                            //these commands are tokenized only
         char *parsed_cmds[300] = {NULL};            // these commands are parsed matlab, [ERROR 4 in diary]
         
-        char *commands [10][50];                     // final parsing commands (after pipe)
-        memset(commands, 0, sizeof(commands));
-
         char pwd[100];
 
         if(getcwd(pwd, sizeof(pwd)) != NULL)
@@ -84,31 +81,15 @@ int main()
 
         // =================================== TOKENIZE ==================================
 
-        tokenize(user_input, cmds, parsed_cmds);
+        tokenize(user_input, tok_cmds);
         
         // =================================== Parsing ======================================
 
-        int cmd_count = 0;
         Command cmd;
-        cmd.inputfile = NULL;
-        cmd.outputfile = NULL;
+        cmd.count = 0;
 
-        parsing_by_special_char(parsed_cmds, commands, &cmd_count, &cmd);         // using & with cmd_count because cmd_count is earlier defined as int only, unlike other array parameters which were defined with pointer state 
-
-        // using struct; copying my commands to struct data type 
-        
-
-        cmd.count = cmd_count;
-
-        for(int i = 0; i < cmd_count; i++){
-            cmd.simpleCommands[i].argc = 0;
-
-            for(int j = 0; commands[i][j] != NULL; j++){
-                cmd.simpleCommands[i].argv[j] = commands[i][j];
-                cmd.simpleCommands[i].argc++;
-            }
-            cmd.simpleCommands[i].argv[cmd.simpleCommands[i].argc] = NULL;
-        }
+        parser_for_quotes(tok_cmds, parsed_cmds);
+        parse_struct(parsed_cmds, &cmd);
 
         // DEBUG 
         printf("\nStruct Debug \n");
@@ -157,7 +138,7 @@ int main()
             }
             printf("\n");
         }
-        execute_command(&cmd, cmd_count);
+        execute_command(&cmd, cmd.count);
          
     }
     return 0;

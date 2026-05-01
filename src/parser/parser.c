@@ -24,7 +24,7 @@ void parse_struct(char *tokens[], Command *cmd)
         {
             if(argc == 0)
             {
-                printf("Syntax not defined: Empty command before pipe");
+                printf("\nSyntax not defined: Empty command before pipe\n");
                 return;
             }
             
@@ -43,7 +43,7 @@ void parse_struct(char *tokens[], Command *cmd)
                 return;
             }
 
-            cmd->outputfile = tokens[i+1];
+            cmd->outputfile = strdup(tokens[i+1]);
             i++;                            // skip the file name
         }
         else if(strcmp(tokens[i], "<") == 0)

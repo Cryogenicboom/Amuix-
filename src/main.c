@@ -8,6 +8,7 @@
 #include "tokenizer.h"
 #include "command.h"
 #include "executor.h"
+#include "builtins.h"
 
 void header(){  
 
@@ -111,19 +112,22 @@ int main()
 
 
         // ========================================BUILT IN CMDS: ========================================
-        if(strcmp(parsed_cmds[0], "dbd") == 0)
-        {
-            printf("        DEBUG: [%s, %s, %s]\n", parsed_cmds[0], parsed_cmds[1], parsed_cmds[2]);
-            if(chdir(parsed_cmds[1]) == -1)         // chdir us used to dirbadlo
-            {
-                perror("command directory badlo failed");
-            }
-            continue;
-        }
-        else if (strcmp(parsed_cmds[0], "bahar") == 0)
-        {
-            exit(EXIT_SUCCESS);
-        }
+        built_ins(parsed_cmds);
+        
+        // if(strcmp(parsed_cmds[0], "dbd") == 0)
+        // {
+        //     printf("        DEBUG: [%s, %s, %s]\n", parsed_cmds[0], parsed_cmds[1], parsed_cmds[2]);
+        //     if(chdir(parsed_cmds[1]) == -1)         // chdir us used to dirbadlo
+        //     {
+        //         perror("command directory badlo failed");
+        //     }
+        //     continue;
+        // }
+        // else if (strcmp(parsed_cmds[0], "bahar") == 0)
+        // {
+        //     exit(EXIT_SUCCESS);
+        // }
+        
         
 
         // ================================= External Cmds: ==========================================

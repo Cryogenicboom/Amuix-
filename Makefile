@@ -15,7 +15,8 @@ CFLAGS = -g -Wall -Iinclude
 SOURCES = src/main.c \
 src/parser/parser.c \
 src/parser/tokenizer.c \
-src/executor/executor.c 
+src/executor/executor.c \
+src/builtins/builtins.c
 
 OUT = AMUNIX
 

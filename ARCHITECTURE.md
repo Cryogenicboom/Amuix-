@@ -21,39 +21,82 @@ Shell is a CLI (Command Line Interface) that acts as an interface for an Operati
 
 ## Why AMUNIX? 
 <p>
-I know there exist professional shells already. I built AMUNIX as a curiosity driven project. I was studying [OSTEP](https://pages.cs.wisc.edu/~remzi/OSTEP/), this book ignited the spark in me to understand computers at fundamentals. I thought "why not learn by doing?". I hope that this shell will also help other curious minds to understand the shell development. 
+I know there exist professional shells already. I built AMUNIX as a curiosity driven project. I was studying [OSTEP](https://pages.cs.wisc.edu/~remzi/OSTEP/) , this book ignited the spark in me to understand computers at fundamentals. I thought "why not learn by doing?". I hope that this shell will also help other curious minds to understand the shell development. 
 </p>
 
 # ARCHITECTURE 
 Shell is divided into 3 parts: 
-- [Tokenizer](#tokenizer) : splits the user input commands into array of strings. 
-- [PARSING](#parsing) : gives meaning to Tokenized command. 
+- [Tokenizer](#10-tokenizer) : splits the user input commands into array of strings. 
+- [PARSING](#20-parsing) : gives meaning to Tokenized command. 
 - [Executor](#executor) : executes the parsed command and returns output.
 
 ---
 
 #### Initiliaz the shell with: 
-- char user_intput[] : takes user input as continous one string.
-- char *parsed_cmds[] : stores the tokenized commands and is used by parser.
+- `char user_intput[]` : takes user input as continous one string.
+- `char *parsed_cmds[]` : stores the tokenized commands and is used by parser.
 - Struct Command , simpleCommands : stores the parsed commands and used by executor
 - each command after tokenized should end with a `\0` NULL terminater, it is important because we will be using `exec()` to execute the exeternal commands. 
 
-## Tokenizer: 
+## 1.0 Tokenizer: 
+Converts raw user input (character stream) into a sequence of tokens which can be used for parsing and make meaningful commands out of it.
 
-- Tokennizing a stream of text means dividing it into tokens ( like smaller strings ). But how do you actually divide ? you need a reference to divide w.r.t it, this reference is called "delimeter". 
-- we are using `" "` (whitespace), `\t` (tab space) as delimeters. Whenever user enters a command `ls -a|grep file.txt` tokenizer splits this stream of text into `{"ls" "-a|grep" "file.txt"}`. But wait! `-a` and `grep` were supposed to be different commands, since they were separated by pipe `|`. 
-- Your users can be hard annoying sometimes therefore they might not whitespace pipe `|`. So being a good developer you should take the responsiblity :) 
-- [Piping](https://www.geeksforgeeks.org/linux-unix/piping-in-unix-or-linux/) : A pipe is a form of redirection that is used in Unix-like operating systems to send the output of one command/program/process to another command/program/process for further processing. The Unix systems allow the stdout of a command to be connected to the stdin of another command. You can make it do so by using the pipe character '|'. 
-- to get `-a|grep` --> `"-a" "|" "grep"` i handle it manually, having a buffer array, whenever `|` is encountered, add a space before and after the pipe. and then pass it for tokenizing. 
+#### 1.1 Input:
+
+- user_input: mutable C string read from stdin (newline removed). input is preprocessed before tokenizer to add the NULL terminator.
+- __FLAW__ : Assumes preprocessing step (main.c) inserts spaces around "|" before tokenization. 
+- Maximum input size bounded by fixed buffer (100 chars in current implementation)
+
+#### 1.2 Output
+
+- cmds[]: intermediate token array produced with delimeter 'whitespaces' or 'tab'.
+- parsed_cmds[]: final token array after quote handling. Example : `dirbadlo "directory name with spaces"`.
+- Both arrays are NULL terminated to satisfy execvp() argument requirements.
 
 
+#### 1.3 Tokenization Rules
 
+- Delimiters: space ' ' and tab '\t'
+- Consecutive delimiters are treated as a single separator (strtok behavior)
+- Quoted substrings ("...") are merged into a single token
+- Special symbols (|, <, >) are not tokenized by tokenizer and rely on preprocessing or later parsing stages.
 
+#### 1.4 Processing Flow
 
-## Parsing:
+- Input string is split using strtok() into cmds[]
+- If input is empty, return NULL output
+- parser_for_quotes() merges quoted tokens into parsed_cmds[]
+- Final token array is prepared for parsing stage
 
+#### 1.5 Limitations
+- strtok() is a C function defined in `<string.h>` header. It is used to tokenized the input, rather than dealing it with manually. 
+- Relies on manual preprocessing for operators like | (not lexical)
+- Does not support escaped quotes (\") or nested quoting
+- Operators (>>, >&, etc.) are not handled at tokenizer level ( still in development )
+- Mixed memory ownership: some tokens point into input buffer, others are heap-allocated (strdup)
 
+## 2.0 Parsing:
+Parser is another tool that gives meaning to our commands, it breaks our commands in such a way that a computer can understand. It takes tokenized commands and gives out a command table ( struct ). This is where we will also look for errors and handle wrong syntax entered by user. 
+For arguments like `"Directory name with spaces"` they are divided into tokens, we will handle double quotes to ensure string inside double quotes be a token. Once tokens are normalized we will proceed to forming command table.
 
+### 2.1 parsing with quotes 
+- `parser_for_quotes()` processes the token list to handle quoted strings. Since the tokenizer is splitting the input based on spaces and special characters, arguments enclosed in quotes (ex. "hello world") are incorrectly split into multiple tokens. This function reconstructs them into a single argument by merging tokens until a closing quote is found.
+- This ensure correct syntax called semantic correctness of arguments. 
+
+## 2.2 Output: 
+> - an array of SimpleCommands (pipeline stages),
+> - argument vectors (argv) for each command,
+> - input/output redirection information.
+
+### 2.3 Command table
+- `parse_struct()` performs structural parsing. It iterates over the tokens and builds the Command structure by organizing tokens into multiple `SimpleCommand` entries. 
+- Each `SimpleCommand` represents a command in a pipeline, and arguments are stored in an `argv` array format compatible with execvp(). 
+- Pipes (|) are used to separate commands, while redirection operators (<, >) update the input and output file fields of the Command structure. see the `command.h` file for the defination of `Command` struct.
+
+## 2.4 What we are doing ? 
+- parser enforces basic syntax rules during, such as preventing empty commands before pipes and ensuring that redirection operators are followed by valid filenames. If invalid syntax is detected, the parser reports an error and stops further processing.
+- Finally, the output of the parser is a fully populated Command structure as mentioned in [Output](#22-output).
+- This structure is then passed to the executor, which uses it to create processes, set up pipes, and perform execution.
 
 
 ## Executor: 

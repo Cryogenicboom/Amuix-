@@ -130,7 +130,8 @@ int main()
         printf("\nDEBUG:\n");
         printf("inputFile: %s\n", cmd.inputfile ? cmd.inputfile : "NULL");
         printf("outputFile: %s\n", cmd.outputfile ? cmd.outputfile : "NULL");
-
+        printf("======================================================================\n");
+        
         for(int i = 0; i < cmd.count; i++){
             printf("cmd[%d]: ", i);
             for(int j = 0; cmd.simpleCommands[i].argv[j] != NULL; j++){

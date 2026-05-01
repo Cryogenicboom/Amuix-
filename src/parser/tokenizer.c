@@ -6,7 +6,8 @@
 #include <sys/wait.h>
 
 
-void tokenize(char *user_input, char * tok_cmds[]){
+void tokenize(char *user_input, char * tok_cmds[])
+{
     
     int i = 0;                          // index of user_input 
     int word_idx = 0;                   // index of current word's index ( subindex )

@@ -112,7 +112,12 @@ int main()
 
 
         // ========================================BUILT IN CMDS: ========================================
-        built_ins(parsed_cmds);
+        if(built_ins(parsed_cmds) == 0)
+        {
+            continue;
+        }
+        
+        
         
         // if(strcmp(parsed_cmds[0], "dbd") == 0)
         // {

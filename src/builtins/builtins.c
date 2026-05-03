@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #include <pwd.h>
 
-void built_ins(char *parsed_cmds[])
+int built_ins(char *parsed_cmds[])
 {
 
     if(strcmp(parsed_cmds[0], "dbd") == 0)
@@ -15,7 +15,7 @@ void built_ins(char *parsed_cmds[])
         {
             perror("command : directory badlo failed");
         }
-        return;
+        return 0;
     }
     else if (strcmp(parsed_cmds[0], "bahar") == 0)
     {
@@ -23,6 +23,7 @@ void built_ins(char *parsed_cmds[])
     }
     else if (strcmp(parsed_cmds[0], "whoru") == 0)
     {
+        return 0;
         printf("\ni am a shell who helps you interact with your Operating system and helps with using your system. Name is AMUNIX, idk what it means but thanks for asking!");
         
     }
@@ -41,8 +42,12 @@ void built_ins(char *parsed_cmds[])
         else
         {
             perror("getpwuid");
-            return;
+            return 1;
         }
-        return;
+        return 0;
+    }
+    else
+    {
+        return 1;
     }
 }

@@ -35,6 +35,12 @@ AMUNIX could help you too study the strucutre and how a shell operates at base l
 6. gnome is yet to be debuged, it will be added soon.
 7. `bahar` to exit
 
+## Run Time images 
+<img src="display1.png" alt="Window" width="500"/>
+<br>
+
+<img src="display2.png>" alt="Window2" width="350"/>
+
 
 ## See detailed documentation here:  
 

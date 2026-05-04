@@ -50,8 +50,8 @@ int main()
         fgets(user_input, sizeof(user_input), stdin);
         user_input[strcspn(user_input, "\n")] = '\0';
 
-        // debug
-        printf("        before : %s", user_input);
+        // // debug
+        // printf("        before : %s", user_input);
 
         // add spaces before and after pipe |
         int buffer_idx = 0;
@@ -77,8 +77,8 @@ int main()
         buffer[buffer_idx] = '\0';
         strcpy(user_input, buffer);
 
-        // debug
-        printf("\n      after : %s", user_input);
+        // // debug
+        // printf("\n      after : %s", user_input);
 
         // =================================== TOKENIZE ==================================
 
@@ -92,23 +92,23 @@ int main()
         parser_for_quotes(tok_cmds, parsed_cmds);
         parse_struct(parsed_cmds, &cmd);
 
-        // DEBUG 
-        printf("\nStruct Debug \n");
-        for(int i = 0; i < cmd.count; i++){
-            printf("simpleCommand %d: ", i);
-            for(int j = 0; cmd.simpleCommands[i].argv[j] != NULL; j++){
-                printf("[%s] ", cmd.simpleCommands[i].argv[j]);
-            }
-            printf("\n");
-        }
+        // // DEBUG 
+        // printf("\nStruct Debug \n");
+        // for(int i = 0; i < cmd.count; i++){
+        //     printf("simpleCommand %d: ", i);
+        //     for(int j = 0; cmd.simpleCommands[i].argv[j] != NULL; j++){
+        //         printf("[%s] ", cmd.simpleCommands[i].argv[j]);
+        //     }
+        //     printf("\n");
+        // }
 
         if(parsed_cmds[0] == NULL)
         {
             continue;
         }
 
-        // debug
-        printf("\n      DEBUG: parsed_cmds[0] = %p\n\n", parsed_cmds[0]); // debug line to check for seg fault 
+        // // debug
+        // printf("\n      DEBUG: parsed_cmds[0] = %p\n\n", parsed_cmds[0]); // debug line to check for seg fault 
 
 
         // ========================================BUILT IN CMDS: ========================================
@@ -116,30 +116,12 @@ int main()
         {
             continue;
         }
-        
-        
-        
-        // if(strcmp(parsed_cmds[0], "dbd") == 0)
-        // {
-        //     printf("        DEBUG: [%s, %s, %s]\n", parsed_cmds[0], parsed_cmds[1], parsed_cmds[2]);
-        //     if(chdir(parsed_cmds[1]) == -1)         // chdir us used to dirbadlo
-        //     {
-        //         perror("command directory badlo failed");
-        //     }
-        //     continue;
-        // }
-        // else if (strcmp(parsed_cmds[0], "bahar") == 0)
-        // {
-        //     exit(EXIT_SUCCESS);
-        // }
-        
-        
-
+ 
         // ================================= External Cmds: ==========================================
-        printf("\nDEBUG:\n");
-        printf("inputFile: %s\n", cmd.inputfile ? cmd.inputfile : "NULL");
-        printf("outputFile: %s\n", cmd.outputfile ? cmd.outputfile : "NULL");
-        printf("======================================================================\n");
+        // printf("\nDEBUG:\n");
+        // printf("inputFile: %s\n", cmd.inputfile ? cmd.inputfile : "NULL");
+        // printf("outputFile: %s\n", cmd.outputfile ? cmd.outputfile : "NULL");
+        // printf("======================================================================\n");
         
         for(int i = 0; i < cmd.count; i++){
             printf("cmd[%d]: ", i);

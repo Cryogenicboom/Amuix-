@@ -23,9 +23,9 @@ int built_ins(char *parsed_cmds[])
     }
     else if (strcmp(parsed_cmds[0], "whoru") == 0)
     {
-        return 0;
-        printf("\ni am a shell who helps you interact with your Operating system and helps with using your system. Name is AMUNIX, idk what it means but thanks for asking!");
         
+        printf("\ni am a shell who helps you interact with your Operating system and helps with using your system. Name is AMUNIX, idk what it means but thanks for asking!");
+        return 0;
     }
     else if(strcmp(parsed_cmds[0], "Hello") == 0)
     {

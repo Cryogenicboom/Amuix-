@@ -83,7 +83,7 @@ For arguments like `"Directory name with spaces"` they are divided into tokens, 
 - `parser_for_quotes()` processes the token list to handle quoted strings. Since the tokenizer is splitting the input based on spaces and special characters, arguments enclosed in quotes (ex. "hello world") are incorrectly split into multiple tokens. This function reconstructs them into a single argument by merging tokens until a closing quote is found.
 - This ensure correct syntax called semantic correctness of arguments. 
 
-## 2.2 Output: 
+### 2.2 Output: 
 > - an array of SimpleCommands (pipeline stages),
 > - argument vectors (argv) for each command,
 > - input/output redirection information.
@@ -93,10 +93,13 @@ For arguments like `"Directory name with spaces"` they are divided into tokens, 
 - Each `SimpleCommand` represents a command in a pipeline, and arguments are stored in an `argv` array format compatible with execvp(). 
 - Pipes (|) are used to separate commands, while redirection operators (<, >) update the input and output file fields of the Command structure. see the `command.h` file for the defination of `Command` struct.
 
-## 2.4 What we are doing ? 
+### 2.4 What we are doing ? 
 - parser enforces basic syntax rules during, such as preventing empty commands before pipes and ensuring that redirection operators are followed by valid filenames. If invalid syntax is detected, the parser reports an error and stops further processing.
 - Finally, the output of the parser is a fully populated Command structure as mentioned in [Output](#22-output).
 - This structure is then passed to the executor, which uses it to create processes, set up pipes, and perform execution.
 
 
-## Executor: 
+## 3.0 Executor: 
+this module does the actual work of implementing the commands. It uses system calls to do so. After parsing the commands are passed for execution, where they are executed using `exec()` family of commands. Note that only external commands are handled by our executor meaning, whatever commands are passed here, they are stored in your system's files, we are just calling them with appropriate arguments. 
+<br> 
+BuiltIns commands are handled differently by other system calls.

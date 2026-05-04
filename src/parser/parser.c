@@ -123,11 +123,11 @@ void parser_for_quotes(char * cmds[], char * parsed_cmds[])
     }
     parsed_cmds[j] = NULL;
 
-    // DEBUG LINE 
-    printf("\nTokenized elements: ");
-    for(int a = 0; parsed_cmds[a] != NULL; a++){
-        printf("\n%s", parsed_cmds[a]);
-    }
+    // // DEBUG LINE 
+    // printf("\nTokenized elements: ");
+    // for(int a = 0; parsed_cmds[a] != NULL; a++){
+    //     printf("\n%s", parsed_cmds[a]);
+    // }
 }
 
 

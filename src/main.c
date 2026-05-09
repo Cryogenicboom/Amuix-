@@ -9,6 +9,9 @@
 #include "command.h"
 #include "executor.h"
 #include "builtins.h"
+#include "termios.h"
+
+struct termios orignal_state;
 
 void header(){  
 
@@ -31,9 +34,14 @@ void header(){
 }
 
 
+
 int main()
 {
     header();
+
+    // struct termios orignal_state;
+    tcgetattr(STDIN_FILENO, &orignal_state);
+
     while(1)
     {
         char user_input[100];

@@ -64,7 +64,7 @@ void execute_command(Command *cmd, int cmd_count)
                 
                 execvp(cmd->simpleCommands[i].argv[0], cmd->simpleCommands[i].argv);
                 perror("execvp failed");
-                exit(1);
+                _exit(1);                               // _exit() prevents child changing mode
             }
             
             else if (pid > 0)

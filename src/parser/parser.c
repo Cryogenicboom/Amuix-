@@ -39,7 +39,7 @@ void parse_struct(char *tokens[], Command *cmd)
         {
             if(tokens[i+1] == NULL)
             {
-                printf("Syntax not defined: No output file given");
+                printf("\nSyntax not defined: No output file given\n");
                 return;
             }
 
@@ -50,7 +50,7 @@ void parse_struct(char *tokens[], Command *cmd)
         {
             if(tokens[i+1] == NULL)
             {
-                printf("Syntax not defined: No input file given");
+                printf("\nSyntax not defined: No input file given\n");
                 return;
             }
 
@@ -68,7 +68,7 @@ void parse_struct(char *tokens[], Command *cmd)
     }
     if(argc == 0 && cmd->count > 1)
     {
-        printf("Syntax not defined: Abondend pipe\n");
+        printf("\nSyntax not defined: Abondend pipe\n");
         return;
     }
     if(argc > 0)

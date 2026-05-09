@@ -67,7 +67,7 @@ void tokenize(char *user_input, char * tok_cmds[])
                 }
                 else if(user_input[i+1] == '<')
                 {
-                    printf("what is this '><' command huh?");
+                    printf("\nwhat is this '><' command huh?\n");
                     return;
                 }
                 else
@@ -83,7 +83,7 @@ void tokenize(char *user_input, char * tok_cmds[])
             }
             else if((user_input[i] == '<' && user_input[i+1] != '\0') && (user_input[i+1] == '<' || user_input[i+1] == '&'))
             {
-                printf("sorry user but this command is still in development {<<, <&, >&}");
+                printf("\nsorry user but this command is still in development {<<, <&, >&}\n");
                 return;
             }
             // if space is occured like ls > out.txt, toh isme jab '>' ke baad space aayega toh ham loop restart karenge taaki starting mai space skip wala block run kar sake

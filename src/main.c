@@ -30,8 +30,8 @@ void header(){
     );
 
     printf("\nThis project is being actively developed as a learning and building exercise."
-            "\nSome components may not be fully stable yet."
-            "\nIf you run into issues or have suggestions, reporting them would be helpful.\n");
+            "\nSome components may not be stable yet."
+            "\nIf you run into issues or have suggestions, reporting them would be helpful by raising issues on our GITHUB repo.\n");
 
     printf("\nAMUIX is an another shell in this open source world. It is used to study the shell development and operating system working. Refer to this repo 'https://github.com/Cryogenicboom/User-Simulated-Virtual-OS' where we are simulating the operating system.\n\n");
 }

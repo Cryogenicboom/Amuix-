@@ -41,29 +41,35 @@ void restore_terminal()
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orignal_state);
 }
 
-void arrow_keys(int single_char, char * cmd_history[200], int nav_history, int history_index)
+int arrow_keys(int single_char, char * cmd_history[200], int *nav_history, int *history_index, char user_input[100])
 {   
 
     single_char = getchar();
     if(single_char == 91)
     {
         single_char = getchar();
-        if(single_char == 65 && nav_history >= 0)
+
+        if(single_char == 65 && *nav_history > 0)
             {
-                nav_history--;
-                printf("%s", cmd_history[nav_history]);
-                
+                (*nav_history)--;
+                printf("%s", cmd_history[*nav_history]);
+                strcpy(user_input, cmd_history[*nav_history]);
+                return strlen(user_input);
             }
-        else if(single_char == 66 && nav_history <= history_index)
+        else if(single_char == 66 && *nav_history < *history_index -1)
         {
-            nav_history++;
-            printf("%s", cmd_history[nav_history]);
+            (*nav_history)++;
+            printf("%s", cmd_history[*nav_history]);
+            strcpy(user_input, cmd_history[*nav_history]);
+            return strlen(user_input);
         }
         else
         {
-            nav_history = history_index;
+            *nav_history = *history_index;
+            return 0;
         }
     }
+    return -1;              // fail
 }
 
 int main()
@@ -113,9 +119,11 @@ int main()
 
         while(single_char != '\n')
         {
+            printf("(%d)", single_char);
             if(single_char == 27)
             {
-                arrow_keys(single_char, cmd_history, nav_history, history_index);
+                i = arrow_keys(single_char, cmd_history, &nav_history, &history_index, user_input);
+                
             }
             else
             {

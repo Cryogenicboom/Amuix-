@@ -41,6 +41,31 @@ void restore_terminal()
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orignal_state);
 }
 
+void arrow_keys(int single_char, char * cmd_history[200], int nav_history, int history_index)
+{   
+
+    single_char = getchar();
+    if(single_char == 91)
+    {
+        single_char = getchar();
+        if(single_char == 65 && nav_history >= 0)
+            {
+                nav_history--;
+                printf("%s", cmd_history[nav_history]);
+                
+            }
+        else if(single_char == 66 && nav_history <= history_index)
+        {
+            nav_history++;
+            printf("%s", cmd_history[nav_history]);
+        }
+        else
+        {
+            nav_history = history_index;
+        }
+    }
+}
+
 int main()
 {
     header();
@@ -59,6 +84,11 @@ int main()
 
     // cooked ---> raw mode
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw_state);
+
+    // array to store command history 
+    char * cmd_history[200];
+    int history_index = 0;
+    int nav_history = 0;
 
     while(1)
     {
@@ -83,14 +113,27 @@ int main()
 
         while(single_char != '\n')
         {
-            putchar(single_char);
-            user_input[i] = single_char;
+            if(single_char == 27)
+            {
+                arrow_keys(single_char, cmd_history, nav_history, history_index);
+            }
+            else
+            {
+                putchar(single_char);
+                user_input[i] = single_char;
+                
+                fflush(stdout);                      // Notes in diary( 14 march).
+                i++ ;
+            }
             single_char = getchar();
-            fflush(stdout);                      // Notes in diary 14 march.
-            i++ ;
+
         }
         putchar('\n');
         user_input[i] = '\0';
+
+        cmd_history[history_index] = strdup(user_input);
+        history_index++ ;
+        nav_history = history_index;
 
 
         // add spaces before and after pipe |

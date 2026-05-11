@@ -14,21 +14,21 @@
 
 --- 
 
-### Another open shell in this open source world.
+### Another open shell in this open source world. A hobby project of mine.
 <br>
-
-
 
 <p> 
-This is a hobby project of mine, i was really fascinated by Linux when playing BANDIT on my WSL. This made me learn more about Computer Networks and low level systems. Networking was not only about connecting your system to another system, but your system also uses Transmission Control Protocol (TCP) to ensure the reliablity of communication inside the system itself.
+I used to procrastinate learning C, it was boring watching tutorials, reading manuels i don't understand fully, i wanted a reason to learn, and that's why i decided to get my hands dirty. But why shell? Because shell is an amazing interface that provides utilities to interact with the OS directly. You might wonder what actually happens when you type your commands on screen, how does it detect keyboard input, how does it know where to output? How can you detect an up arrow key when your command registers with enter key?
 
-AMUNIX could help you too study the strucutre and how a shell operates at base level.To learn about the working and internal structure you can refer to [Architecture.md](https://github.com/Cryogenicboom/Amunix/blob/main/ARCHITECTURE.md) 
+That's how AMUNIX can help you too study "how a shell operates at base level". AMUNIX is your tool, study it if you want to understand what happens between your keypress and OS. 
+To learn about the working and internal structure you can refer to [Architecture.md](https://github.com/Cryogenicboom/Amunix/blob/main/ARCHITECTURE.md) 
 </p>
 
-## Run the shell
+## Installing the shell
+
 1. chmod +x install.sh
 2. ./install.sh
-<br>
+
 OR --- 
 
 1. Fork this repo and zip file it on your system.

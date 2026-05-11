@@ -60,6 +60,7 @@ AMUNIX could help you too study the strucutre and how a shell operates at base l
 | bahar           | `bahar`                    | Exits the shell program using `exit()` |
 | Greet shell     | `Hello`                    | Greet the shell, it's a good habit     |
 | who are you?    | `whoru`                    | Sometimes you want to make shell feel known |
+| History         | `up arrow key / down arrow key` | prints the previous commands executed |
 
 ### SYSTEM COMMAND
 | Feature            | Syntax Example              | Description |

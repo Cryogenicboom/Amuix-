@@ -26,6 +26,11 @@ AMUNIX could help you too study the strucutre and how a shell operates at base l
 </p>
 
 ## Run the shell
+1. chmod +x install.sh
+2. ./install.sh
+<br>
+OR --- 
+
 1. Fork this repo and zip file it on your system.
 2. Create a new folder named "AMUNIX" and unzip the downlaoded folder here. 
 2. open terminal (WIN+R --> cmd --> enter), and in terminal itself, go to the AMUNIX folder where you have extracted the shell contents.

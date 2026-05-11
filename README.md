@@ -58,6 +58,8 @@ AMUNIX could help you too study the strucutre and how a shell operates at base l
 |-----------------|----------------------------|-------------|
 | directory badlo | `dbd <directory>`          | Changes the current working directory using `chdir()` system call |
 | bahar           | `bahar`                    | Exits the shell program using `exit()` |
+| Greet shell     | `Hello`                    | Greet the shell, it's a good habit     |
+| who are you?    | `whoru`                    | Sometimes you want to make shell feel known |
 
 ### SYSTEM COMMAND
 | Feature            | Syntax Example              | Description |
@@ -85,7 +87,6 @@ AMUNIX could help you too study the strucutre and how a shell operates at base l
 ### LIMITATIONS
 | Limitation            | Current Behavior |
 |----------------------|------------------|
-| Pipe Execution       | Pipes are parsed but NOT executed yet |
-| Redirection          | Not implemented (`>`, `<`, etc.) |
+| Redirection          | Not implemented (`>>`, `<<`, etc.) |
 | Background Process   | Not supported (`&`) |
 | Error Handling       | Minimal |

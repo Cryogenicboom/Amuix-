@@ -45,7 +45,9 @@ OR ---
 <br>
 
 <img src="images/display2.png" alt="Window2" width="500"/>
+<br>
 
+<img src="images/Untitled.jpg" alt="Window3" width="600"/>
 
 ## See detailed documentation here:  
 

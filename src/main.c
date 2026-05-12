@@ -41,13 +41,17 @@ void restore_terminal()
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orignal_state);
 }
 
-int arrow_keys(int single_char, char * cmd_history[200], int *nav_history, int *history_index, char user_input[100])
+int arrow_keys(int single_char, char * cmd_history[200], int *nav_history, int *history_index, char user_input[100], int i)
 {   
-
     single_char = getchar();
     if(single_char == 91)
     {
         single_char = getchar();
+        
+        for(int j = 0; j < i; j++)
+        {
+            printf("\b \b");
+        }
 
         if(single_char == 65 && *nav_history > 0)
             {
@@ -79,7 +83,7 @@ int main()
     // struct termios orignal_state;
     tcgetattr(STDIN_FILENO, &orignal_state);
 
-    // whenever exit is called switch to original  terminal state
+    // whenever exit is called switch to og terminal state
     atexit(restore_terminal);
 
     // copy the original state into another struct and then use it to modify for raw.
@@ -101,7 +105,7 @@ int main()
         char user_input[100];
         char single_char;
         char *tok_cmds[300];                            //these commands are tokenized only
-        char *parsed_cmds[300] = {NULL};            // these commands are parsed matlab, [ERROR 4 in diary]
+        char *parsed_cmds[300] = {NULL};               // these commands are parsed matlab, [ERROR 4 in diary]
         
         char pwd[100];
 
@@ -119,11 +123,19 @@ int main()
 
         while(single_char != '\n')
         {
-            printf("(%d)", single_char);
+            // printf("(%d)", single_char);
             if(single_char == 27)
+            {   
+                int temp = arrow_keys(single_char, cmd_history, &nav_history, &history_index, user_input, i);
+                if(temp >= 0)               
+                {
+                    i = temp;
+                }
+            }
+            else if(single_char == 127 && i > 0)
             {
-                i = arrow_keys(single_char, cmd_history, &nav_history, &history_index, user_input);
-                
+                printf("\b \b");
+                i--;
             }
             else
             {
@@ -197,7 +209,7 @@ int main()
         }
 
         // // debug
-        // printf("\n      DEBUG: parsed_cmds[0] = %p\n\n", parsed_cmds[0]); // debug line to check for seg fault 
+        // printf("\n      DEBUG: parsed_cmds[0] = %p\n\n", parsed_cmds[0]); //check for seg fault 
 
 
         // ========================================BUILT IN CMDS: ========================================

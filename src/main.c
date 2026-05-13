@@ -16,6 +16,19 @@ struct termios orignal_state;
 
 struct termios raw_state;
 
+struct cmd_history
+    {
+        char *h_cmds;
+        struct cmd_history *next;
+        struct cmd_history *previous;
+    };
+    
+// history command head
+struct cmd_history *head = NULL;
+struct cmd_history *tail = NULL;
+
+    
+
 void header(){  
 
     printf(
@@ -39,13 +52,21 @@ void header(){
 void restore_terminal()
 {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orignal_state);
+    free(tail);
+    free(head);
 }
 
-int arrow_keys(int single_char, char * cmd_history[200], int *nav_history, int *history_index, char user_input[100], int i)
+int arrow_keys(char single_char, char user_input[100], struct cmd_history *tail, struct cmd_history *head, int i, struct cmd_history **navptr)
 {   
     single_char = getchar();
+
     if(single_char == 91)
-    {
+    {   
+        if(*navptr == NULL)
+        {
+            return 0;
+        }
+
         single_char = getchar();
         
         for(int j = 0; j < i; j++)
@@ -53,23 +74,30 @@ int arrow_keys(int single_char, char * cmd_history[200], int *nav_history, int *
             printf("\b \b");
         }
 
-        if(single_char == 65 && *nav_history > 0)
-            {
-                (*nav_history)--;
-                printf("%s", cmd_history[*nav_history]);
-                strcpy(user_input, cmd_history[*nav_history]);
+        if(single_char == 65 && *navptr != head)
+            {   
+                *navptr = (*navptr)->previous;
+                printf("%s", (*navptr)->h_cmds);
+                strcpy(user_input, (*navptr)->h_cmds);
                 return strlen(user_input);
             }
-        else if(single_char == 66 && *nav_history < *history_index -1)
+        else if(single_char == 66)
         {
-            (*nav_history)++;
-            printf("%s", cmd_history[*nav_history]);
-            strcpy(user_input, cmd_history[*nav_history]);
-            return strlen(user_input);
+            if(*navptr != tail)
+            {
+                *navptr = (*navptr)->next;
+                printf("%s", (*navptr)->h_cmds);
+                strcpy(user_input, (*navptr)->h_cmds);
+                return strlen(user_input);
+            }
+            else 
+            {   
+                strcpy(user_input, "\0");
+                return 0;
+            }
         }
         else
         {
-            *nav_history = *history_index;
             return 0;
         }
     }
@@ -95,10 +123,9 @@ int main()
     // cooked ---> raw mode
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw_state);
 
-    // array to store command history 
-    char * cmd_history[200];
-    int history_index = 0;
-    int nav_history = 0;
+    struct cmd_history *navptr = tail;                // pointer to navigate the history array
+
+    // tail = head;
 
     while(1)
     {
@@ -126,7 +153,7 @@ int main()
             // printf("(%d)", single_char);
             if(single_char == 27)
             {   
-                int temp = arrow_keys(single_char, cmd_history, &nav_history, &history_index, user_input, i);
+                int temp = arrow_keys(single_char, user_input, tail, head, i, &navptr);
                 if(temp >= 0)               
                 {
                     i = temp;
@@ -151,10 +178,37 @@ int main()
         putchar('\n');
         user_input[i] = '\0';
 
-        cmd_history[history_index] = strdup(user_input);
-        history_index++ ;
-        nav_history = history_index;
+        if(strlen(user_input) != 0)
+        {
+            // if block only runs at start, when tail = head
+            if(tail == NULL)
+            {
+                tail = (struct cmd_history *) malloc(sizeof(struct cmd_history));   // first node 
+                tail->h_cmds = strdup(user_input);
+                tail->previous = NULL;
+                head = tail;                      // head points to first node 
+                tail->next = NULL;
+            }
+            else
+            {   
+                // next node create
+                struct cmd_history *temp = NULL;
+                temp = (struct cmd_history *) malloc(sizeof(struct cmd_history));
+                temp->previous = tail;                  // store the prev. node address to new node's prev ptr
+                tail->next = temp;                      // old node store the new node address
+                tail = temp;                            // move tail to new node
+                tail->h_cmds = strdup(user_input);      // store the new command in new node
+                tail->next = NULL;   
 
+                // // ERROR 22 in diary ( 22 march )
+                // temp = (struct cmd_history *)malloc(sizeof(struct cmd_history));
+                // tail->next = temp;    
+                // temp->previous = tail;
+                // tail = temp;
+
+            }
+            navptr = tail;
+        }
 
         // add spaces before and after pipe |
         int buffer_idx = 0;

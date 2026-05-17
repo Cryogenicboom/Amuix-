@@ -25,7 +25,7 @@ I know there exist professional shells already. I built AMUNIX as a curiosity dr
 </p>
 
 # ARCHITECTURE 
-Shell is divided into 3 parts: 
+Shell is divided into 4 parts: 
 - [RAW MODE](#00-raw-mode) : System is always cooked, so you gotta do it RAW.
 - [Tokenizer](#10-tokenizer) : splits the user input commands into array of strings. 
 - [PARSING](#20-parsing) : gives meaning to Tokenized command. 
@@ -38,6 +38,10 @@ Shell is divided into 3 parts:
 - `char *parsed_cmds[]` : stores the tokenized commands and is used by parser.
 - Struct Command , simpleCommands : stores the parsed commands and used by executor
 - each command after tokenized should end with a `\0` NULL terminater, it is important because we will be using `exec()` to execute the exeternal commands. 
+
+### Flowchart (will be updated as devlopment progress)
+<img src="images/Untitled.jpg" alt="Window3" width="600"/>
+
 
 ## 0.0 RAW MODE: 
 When you write your command in command prompt, you can observe that it only works on your command after you hit the enter key. But Try to press `up arrow key` and `down arrow key`, you might see history of previous commands you used. But how does this work? You never press enter key with those directional keys. Raw mode is your answe then, refer to this [article](https://viewsourcecode.org/snaptoken/kilo/02.enteringRawMode.html). 
